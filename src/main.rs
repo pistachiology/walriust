@@ -1,11 +1,12 @@
 #[macro_use]
 extern crate diesel;
 
+use futures::io::Error;
+use tokio;
+
 use crate::core::build_kernel;
 use crate::models::transactions::Transaction;
 use crate::telegram::Telegram;
-use futures::io::Error;
-use tokio;
 
 pub mod core;
 pub mod models;

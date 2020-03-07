@@ -18,6 +18,7 @@ use crate::schema::transactions;
 pub enum Category {
     Food,
     Travel,
+    Work,
     Miscellaneous,
 }
 
@@ -26,6 +27,7 @@ impl Category {
         match str.to_lowercase().trim() {
             "food" => Some(Category::Food),
             "travel" => Some(Category::Travel),
+            "work" => Some(Category::Work),
             "misc" => Some(Category::Miscellaneous),
             _ => None,
         }
@@ -42,6 +44,7 @@ impl ToSql<Text, Pg> for Category {
             Category::Food => "food",
             Category::Travel => "travel",
             Category::Miscellaneous => "misc",
+            Category::Work => "work",
         };
         <&str as ToSql<Text, Pg>>::to_sql(&category, out)
     }
@@ -85,11 +88,11 @@ impl PartialEq<Self> for NewTransaction {
             .abs();
         let same_date = timedelta < 2;
 
-        (same_date
+        same_date
             && self.category == other.category
             && self.amount == other.amount
             && self.note == other.note
-            && self.shop_name == other.shop_name)
+            && self.shop_name == other.shop_name
     }
 
     fn ne(&self, other: &NewTransaction) -> bool {

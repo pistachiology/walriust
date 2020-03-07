@@ -1,9 +1,9 @@
-use telegram_bot::{Api, Message, MessageKind};
 use telegram_bot::prelude::*;
+use telegram_bot::{Api, Message, MessageKind};
 
 use crate::core::Kernel;
-use crate::telegram::parser::{Parser, ResultCommand};
 use crate::models::transactions::Transaction;
+use crate::telegram::parser::{Parser, ResultCommand};
 
 pub struct MessagesRouter {
     pub kernel: Kernel,
@@ -30,13 +30,12 @@ impl MessagesRouter {
 
         match result {
             None => {
-                let _res = self.api
+                let _res = self
+                    .api
                     .send(chat.text("Ehhh, what do you mean dude?"))
                     .await;
             }
-            Some(cmd) => {
-                self.execute(message, cmd).await
-            }
+            Some(cmd) => self.execute(message, cmd).await,
         };
     }
 
@@ -51,9 +50,7 @@ impl MessagesRouter {
                 let text = format!("Dude, nice job! '{:?}'", tran);
                 let text = chat.text(text);
 
-                let _res = self.api
-                    .send(text)
-                    .await;
+                let _res = self.api.send(text).await;
             }
             ResultCommand::ListTransaction => {
                 let trans = Transaction::list(&db);
@@ -61,9 +58,33 @@ impl MessagesRouter {
                 let text = format!("Your list! '{:?}'", trans);
                 let text = chat.text(text);
 
-                let _res = self.api
-                    .send(text)
-                    .await;
+                let _res = self.api.send(text).await;
+            }
+            ResultCommand::Help => {
+                let text = r#"
+                Welcome to Walriust!
+                
+                Basic Usage:                    
+                    list [list all transactions]
+                    help [show this message].
+                   
+                 Adding Transaction -
+                    <category> <?shop_name> <price> <note>
+                    
+                    Example
+                   
+                    Food 425.0 for XYZ 
+                    food Yayoi 422
+                
+                List of available category
+                    - Food
+                    - Travel,
+                    - Work,
+                    - Miscellaneous,
+                "#;
+                let text = chat.text(text);
+
+                let _res = self.api.send(text).await;
             }
         }
     }

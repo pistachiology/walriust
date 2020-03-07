@@ -13,9 +13,11 @@ enum ParseState {
     End,
 }
 
+#[derive(Debug)]
 pub enum ResultCommand {
     AddTransaction(NewTransaction),
     ListTransaction,
+    Help,
 }
 
 impl Parser {
@@ -27,9 +29,12 @@ impl Parser {
 
         // Predict command with first token
         if Category::from_string(token).is_some() {
-            self.parse_new_transaction(msg).map(ResultCommand::AddTransaction)
+            self.parse_new_transaction(msg)
+                .map(ResultCommand::AddTransaction)
         } else if token.starts_with("list") {
             Some(ResultCommand::ListTransaction)
+        } else if token.starts_with("help") {
+            Some(ResultCommand::Help)
         } else {
             None
         }
@@ -56,14 +61,22 @@ impl Parser {
                     result.category = Category::from_string(token?)?;
                     state = FindShopOrAmount;
                 }
+                // TODO: Simplify this state
                 ParseState::FindShopOrAmount => {
-                    // parse ahead if it is decimal then treat current token as shop
+                    //                     parse ahead if it is decimal then treat current token as shop
                     if ahead_token.is_some() {
                         let amount = ahead_token?.parse::<f64>();
 
                         if let Ok(amount) = amount {
                             state = ParseState::FindNote;
-                            result.shop_name = Some(token?.to_string());
+                            let builder = if result.shop_name.is_some() {
+                                let builder = result.shop_name.unwrap().clone();
+                                builder.add(" ")
+                            } else {
+                                String::new()
+                            };
+                            let builder = builder.add(token?);
+                            result.shop_name = Some(builder);
                             result.amount = Cents((amount * 100_f64).round() as i64);
                             tokens.next();
                             continue;
@@ -78,7 +91,15 @@ impl Parser {
                         continue;
                     }
 
-                    return None;
+                    state = ParseState::FindShopOrAmount;
+                    let builder = if result.shop_name.is_some() {
+                        let builder = result.shop_name.unwrap().clone();
+                        builder.add(" ")
+                    } else {
+                        String::new()
+                    };
+                    let builder = builder.add(token?);
+                    result.shop_name = Some(builder);
                 }
                 ParseState::FindNote => {
                     if token.is_some() {
@@ -108,7 +129,7 @@ mod tests {
         ($text:expr, None) => {{
             {
                 let parser = Parser {};
-                let left = parser.parse_message($text);
+                let left = parser.parse_new_transaction($text);
                 if left.is_some() {
                     panic!(
                         r#"assertion failed: `(text == result)`
@@ -118,21 +139,21 @@ mod tests {
                         $text, left
                     )
                 }
-                assert_eq!(parser.parse_message($text), None,)
+                assert_eq!(left, None,)
             }
         }};
 
         ($text:expr, $result:expr) => {{
             {
                 let parser = Parser {};
-                let left = parser.parse_message($text).unwrap();
+                let left = parser.parse_new_transaction($text).unwrap();
                 let right = $result;
                 if left != right {
                     panic!(
                         r#"assertion failed: `(text == result)`
    text: `{:?}`,
  result: `{:?}`"#,
-                        left, right
+                        right, left
                     )
                 }
             }
@@ -141,6 +162,16 @@ mod tests {
 
     #[test]
     fn test_parse_simple_transaction_input() {
+        assert_parse_transaction!(
+            "food boon tong kee 300.00",
+            NewTransaction {
+                amount: Cents(300_00),
+                category: Category::Food,
+                date: Utc::now().naive_utc(),
+                note: None,
+                shop_name: Some("boon tong kee".to_string()),
+            }
+        );
         assert_parse_transaction!(
             "food yayoi 300.00",
             NewTransaction {
