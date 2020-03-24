@@ -134,8 +134,9 @@ impl Transaction {
     }
 
     pub fn current_month(conn: &PgConnection) -> Result<Vec<TransactionSummary>, Error> {
-        let results = sql_query("SELECT category, sum(amount) as amount FROM transactions")
-            .get_results(conn)?;
+        let results =
+            sql_query("SELECT category, sum(amount) as amount FROM transactions GROUP BY category")
+                .get_results(conn)?;
 
         Ok(results)
     }
