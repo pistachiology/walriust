@@ -1,0 +1,111 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_FILESEP	slash	/slash or backslash/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PATTERN_LENGTH_LIMIT	96	/0 for no limit/
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	0.0.0	/30cd8e0/
+1Vkxam4JgDR0trQQlU2lvM7Qprj	.idea/workspace.xml	/^  <component name="ProjectId" id="1Vkxam4JgDR0trQQlU2lvM7Qprj" \/>$/;"	i
+AddTransaction	src/telegram/parser.rs	/^    AddTransaction(NewTransaction),$/;"	e	enum:ResultCommand
+Category	src/models/transactions.rs	/^impl Category {$/;"	c
+Category	src/models/transactions.rs	/^impl FromSql<Text, Pg> for Category {$/;"	c
+Category	src/models/transactions.rs	/^impl ToSql<Text, Pg> for Category {$/;"	c
+Category	src/models/transactions.rs	/^pub enum Category {$/;"	g
+Config	src/core.rs	/^pub struct Config {$/;"	s
+ConnectionPool	src/core.rs	/^type ConnectionPool = Pool<ConnectionManager<PgConnection>>;$/;"	t
+Default	.idea/workspace.xml	/^    <task active="true" id="Default" summary="Default task">$/;"	i
+End	src/telegram/parser.rs	/^    End,$/;"	e	enum:ParseState
+FindNote	src/telegram/parser.rs	/^    FindNote,$/;"	e	enum:ParseState
+FindShopOrAmount	src/telegram/parser.rs	/^    FindShopOrAmount,$/;"	e	enum:ParseState
+Food	src/models/transactions.rs	/^    Food,$/;"	e	enum:Category
+Help	src/telegram/parser.rs	/^    Help,$/;"	e	enum:ResultCommand
+Kernel	src/core.rs	/^impl Clone for Kernel {$/;"	c
+Kernel	src/core.rs	/^impl Kernel {$/;"	c
+Kernel	src/core.rs	/^pub struct Kernel {$/;"	s
+ListTransaction	src/telegram/parser.rs	/^    ListTransaction,$/;"	e	enum:ResultCommand
+MessagesRouter	src/telegram/messages_router.rs	/^impl MessagesRouter {$/;"	c
+MessagesRouter	src/telegram/messages_router.rs	/^pub struct MessagesRouter {$/;"	s
+Miscellaneous	src/models/transactions.rs	/^    Miscellaneous,$/;"	e	enum:Category
+NewTransaction	src/models/transactions.rs	/^impl NewTransaction {$/;"	c
+NewTransaction	src/models/transactions.rs	/^impl PartialEq<Self> for NewTransaction {$/;"	c
+NewTransaction	src/models/transactions.rs	/^pub struct NewTransaction {$/;"	s
+ParseState	src/telegram/parser.rs	/^enum ParseState {$/;"	g
+Parser	src/telegram/parser.rs	/^impl Parser {$/;"	c
+Parser	src/telegram/parser.rs	/^pub struct Parser {}$/;"	s
+ResultCommand	src/telegram/parser.rs	/^pub enum ResultCommand {$/;"	g
+Start	src/telegram/parser.rs	/^    Start,$/;"	e	enum:ParseState
+Telegram	src/telegram.rs	/^impl Telegram {$/;"	c
+Telegram	src/telegram.rs	/^pub struct Telegram {$/;"	s
+Transaction	src/models/transactions.rs	/^impl Transaction {$/;"	c
+Transaction	src/models/transactions.rs	/^pub struct Transaction {$/;"	s
+Travel	src/models/transactions.rs	/^    Travel,$/;"	e	enum:Category
+Work	src/models/transactions.rs	/^    Work,$/;"	e	enum:Category
+amount	migrations/2019-12-31-165633_create_transactions/up.sql	/^    amount money NOT NULL,$/;"	E	table:transactions
+amount	src/models/transactions.rs	/^    pub amount: PgMoney,$/;"	m	struct:NewTransaction
+amount	src/models/transactions.rs	/^    pub amount: PgMoney,$/;"	m	struct:Transaction
+api	src/telegram.rs	/^    api: Api,$/;"	m	struct:Telegram
+api	src/telegram/messages_router.rs	/^    pub api: Api,$/;"	m	struct:MessagesRouter
+assert_parse_transaction	src/telegram/parser.rs	/^    macro_rules! assert_parse_transaction {$/;"	M	module:tests
+build_config	src/core.rs	/^fn build_config() -> Box<Config> {$/;"	f
+build_db	src/core.rs	/^fn build_db(config: &Config) -> Pool<ConnectionManager<PgConnection>> {$/;"	f
+build_kernel	src/core.rs	/^pub fn build_kernel() -> Kernel {$/;"	f
+category	migrations/2019-12-31-165633_create_transactions/up.sql	/^    category text NOT NULL,$/;"	E	table:transactions
+category	src/models/transactions.rs	/^    pub category: Category,$/;"	m	struct:NewTransaction
+category	src/models/transactions.rs	/^    pub category: Category,$/;"	m	struct:Transaction
+clone	src/core.rs	/^    fn clone(&self) -> Self {$/;"	P	implementation:Kernel
+clone_from	src/core.rs	/^    fn clone_from(&mut self, source: &Self) {$/;"	P	implementation:Kernel
+config	src/core.rs	/^    config: Box<Config>,$/;"	m	struct:Kernel
+config	src/core.rs	/^    pub fn config(&self) -> &Config {$/;"	P	implementation:Kernel
+conn	src/core.rs	/^    pub fn conn(&self) -> Result<PooledConnection<ConnectionManager<PgConnection>>, r2d2::PoolEr/;"	P	implementation:Kernel
+core	src/main.rs	/^pub mod core;$/;"	n
+create	src/models/transactions.rs	/^    pub fn create(&self, conn: &PgConnection) -> Result<Transaction, Error> {$/;"	P	implementation:NewTransaction
+database_url	src/core.rs	/^    pub database_url: String,$/;"	m	struct:Config
+date	migrations/2019-12-31-165633_create_transactions/up.sql	/^    date timestamptz NOT NULL DEFAULT now(),$/;"	E	table:transactions
+date	src/models/transactions.rs	/^    pub date: NaiveDateTime,$/;"	m	struct:NewTransaction
+date	src/models/transactions.rs	/^    pub date: NaiveDateTime,$/;"	m	struct:Transaction
+db	src/core.rs	/^    pub db: ConnectionPool,$/;"	m	struct:Kernel
+diesel_manage_updated_at	migrations/00000000000000_diesel_initial_setup/up.sql	/^CREATE OR REPLACE FUNCTION diesel_manage_updated_at(_tbl regclass) RETURNS VOID AS $\$$/;"	f
+diesel_set_updated_at	migrations/00000000000000_diesel_initial_setup/up.sql	/^CREATE OR REPLACE FUNCTION diesel_set_updated_at() RETURNS trigger AS $\$$/;"	f
+e29d39f2-49c9-48a8-a61f-6bd28a983c8c	.idea/workspace.xml	/^      <changelist id="e29d39f2-49c9-48a8-a61f-6bd28a983c8c" name="Default Changelist" comment=""/;"	i
+e29d39f2-49c9-48a8-a61f-6bd28a983c8c	.idea/workspace.xml	/^    <list default="true" id="e29d39f2-49c9-48a8-a61f-6bd28a983c8c" name="Default Changelist" com/;"	i
+env_or_default	src/core.rs	/^fn env_or_default(key: &str, default: &str) -> String {$/;"	f
+eq	src/models/transactions.rs	/^    fn eq(&self, other: &NewTransaction) -> bool {$/;"	P	implementation:NewTransaction
+execute	src/telegram/messages_router.rs	/^    async fn execute(&self, message: &Message, cmd: ResultCommand) {$/;"	P	implementation:MessagesRouter
+from_sql	src/models/transactions.rs	/^    fn from_sql(bytes: Option<&<Pg as Backend>::RawValue>) -> deserialize::Result<Self> {$/;"	P	implementation:Category
+from_string	src/models/transactions.rs	/^    pub fn from_string(str: &str) -> Option<Self> {$/;"	P	implementation:Category
+handle	src/telegram/messages_router.rs	/^    pub async fn handle(&self, message: Message) {$/;"	P	implementation:MessagesRouter
+handle_message	src/telegram.rs	/^    pub async fn handle_message(self: &Self, msg: Message) {$/;"	P	implementation:Telegram
+id	migrations/2019-12-31-165633_create_transactions/up.sql	/^    id serial PRIMARY KEY,$/;"	E	table:transactions
+id	src/models/transactions.rs	/^    pub id: i32,$/;"	m	struct:Transaction
+is_category	src/models/transactions.rs	/^    pub fn is_category(token: &str) -> bool {$/;"	P	implementation:Category
+kernel	src/telegram.rs	/^    kernel: Kernel,$/;"	m	struct:Telegram
+kernel	src/telegram/messages_router.rs	/^    pub kernel: Kernel,$/;"	m	struct:MessagesRouter
+list	src/models/transactions.rs	/^    pub fn list(conn: &PgConnection) -> Result<Vec<Transaction>, Error> {$/;"	P	implementation:Transaction
+listen	src/telegram.rs	/^    pub async fn listen(self: &Self) {$/;"	P	implementation:Telegram
+main	src/main.rs	/^async fn main() -> Result<(), Error> {$/;"	f
+messages_router	src/telegram.rs	/^mod messages_router;$/;"	n
+models	src/main.rs	/^pub mod models;$/;"	n
+ne	src/models/transactions.rs	/^    fn ne(&self, other: &NewTransaction) -> bool {$/;"	P	implementation:NewTransaction
+new	src/core.rs	/^    pub fn new(config: Box<Config>, db: ConnectionPool) -> Kernel {$/;"	P	implementation:Kernel
+new	src/telegram.rs	/^    pub fn new(kernel: Kernel, key: String) -> Self {$/;"	P	implementation:Telegram
+note	migrations/2019-12-31-165633_create_transactions/up.sql	/^    note text DEFAULT '',$/;"	E	table:transactions
+note	src/models/transactions.rs	/^    pub note: Option<String>,$/;"	m	struct:NewTransaction
+note	src/models/transactions.rs	/^    pub note: Option<String>,$/;"	m	struct:Transaction
+parse_message	src/telegram/parser.rs	/^    pub fn parse_message(&self, msg: &str) -> Option<ResultCommand> {$/;"	P	implementation:Parser
+parse_new_transaction	src/telegram/parser.rs	/^    pub fn parse_new_transaction(&self, msg: &str) -> Option<NewTransaction> {$/;"	P	implementation:Parser
+parser	src/telegram.rs	/^mod parser;$/;"	n
+process	src/telegram/messages_router.rs	/^    async fn process<'a>(&self, message: &'a Message, text: &'a str) {$/;"	P	implementation:MessagesRouter
+schema	src/main.rs	/^pub mod schema;$/;"	n
+shop_name	migrations/2019-12-31-165633_create_transactions/up.sql	/^    shop_name text DEFAULT ''$/;"	E	table:transactions
+shop_name	src/models/transactions.rs	/^    pub shop_name: Option<String>,$/;"	m	struct:NewTransaction
+shop_name	src/models/transactions.rs	/^    pub shop_name: Option<String>,$/;"	m	struct:Transaction
+telegram	src/main.rs	/^pub mod telegram;$/;"	n
+telegram_token	src/core.rs	/^    pub telegram_token: String,$/;"	m	struct:Config
+test_parse_invalid_message	src/telegram/parser.rs	/^    fn test_parse_invalid_message() {$/;"	f	module:tests
+test_parse_simple_transaction_input	src/telegram/parser.rs	/^    fn test_parse_simple_transaction_input() {$/;"	f	module:tests
+tests	src/telegram/parser.rs	/^mod tests {$/;"	n
+to_sql	src/models/transactions.rs	/^    fn to_sql<'a, W: Write>(&self, out: &mut Output<'a, W, Pg>) -> serialize::Result {$/;"	P	implementation:Category
+transactions	migrations/2019-12-31-165633_create_transactions/up.sql	/^CREATE TABLE transactions ($/;"	t
+transactions	src/models/mod.rs	/^pub mod transactions;$/;"	n

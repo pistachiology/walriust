@@ -60,12 +60,21 @@ impl MessagesRouter {
 
                 let _res = self.api.send(text).await;
             }
+            ResultCommand::SummaryCurrentMonth => {
+                let summary = Transaction::current_month(&db);
+
+                let text = format!("Your summary! '{:?}'", summary);
+                let text = chat.text(text);
+
+                let _res = self.api.send(text).await;
+            }
             ResultCommand::Help => {
                 let text = r#"
                 Welcome to Walriust!
                 
                 Basic Usage:                    
                     list [list all transactions]
+                    current [summarize transactions in this month]
                     help [show this message].
                    
                  Adding Transaction -
@@ -77,7 +86,8 @@ impl MessagesRouter {
                     food Yayoi 422
                 
                 List of available category
-                    - Food
+                    - Food,
+                    - Drink,
                     - Travel,
                     - Work,
                     - Miscellaneous,

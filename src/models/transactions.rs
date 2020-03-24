@@ -7,9 +7,9 @@ use diesel::pg::types::money::PgMoney;
 use diesel::pg::Pg;
 use diesel::result::Error;
 use diesel::serialize::{Output, ToSql};
-use diesel::sql_types::Text;
+use diesel::sql_types::{Money, Text};
 use diesel::{deserialize, serialize, Insertable, Queryable};
-use diesel::{PgConnection, RunQueryDsl};
+use diesel::{dsl::sum, sql_query, PgConnection, RunQueryDsl};
 
 use crate::schema::transactions;
 
@@ -17,15 +17,20 @@ use crate::schema::transactions;
 #[sql_type = "Text"]
 pub enum Category {
     Food,
+    Drink,
     Travel,
     Work,
     Miscellaneous,
 }
 
 impl Category {
+    pub fn all() -> Vec<Category> {
+        return vec![Self::Food, Self::Travel, Self::Work, Self::Miscellaneous];
+    }
     pub fn from_string(str: &str) -> Option<Self> {
         match str.to_lowercase().trim() {
-            "food" => Some(Category::Food),
+            "food" | "f" => Some(Category::Food),
+            "drink" | "d" => Some(Category::Food),
             "travel" => Some(Category::Travel),
             "work" => Some(Category::Work),
             "misc" => Some(Category::Miscellaneous),
@@ -34,7 +39,7 @@ impl Category {
     }
 
     pub fn is_category(token: &str) -> bool {
-        return Self::from_string(token).is_some();
+        Self::from_string(token).is_some()
     }
 }
 
@@ -45,12 +50,23 @@ impl ToSql<Text, Pg> for Category {
             Category::Travel => "travel",
             Category::Miscellaneous => "misc",
             Category::Work => "work",
+            Category::Drink => "drink",
         };
         <&str as ToSql<Text, Pg>>::to_sql(&category, out)
     }
 }
 
 impl FromSql<Text, Pg> for Category {
+    fn from_sql(bytes: Option<&<Pg as Backend>::RawValue>) -> deserialize::Result<Self> {
+        let str = <String as FromSql<Text, Pg>>::from_sql(bytes)?;
+        match Self::from_string(&str) {
+            Some(cat) => Ok(cat),
+            None => Err("Unrecognized enum variant".into()),
+        }
+    }
+}
+
+impl FromSql<String, Pg> for Category {
     fn from_sql(bytes: Option<&<Pg as Backend>::RawValue>) -> deserialize::Result<Self> {
         let str = <String as FromSql<Text, Pg>>::from_sql(bytes)?;
         match Self::from_string(&str) {
@@ -116,4 +132,19 @@ impl Transaction {
 
         transactions.load::<Transaction>(conn)
     }
+
+    pub fn current_month(conn: &PgConnection) -> Result<Vec<TransactionSummary>, Error> {
+        let results = sql_query("SELECT category, sum(amount) as amount FROM transactions")
+            .get_results(conn)?;
+
+        Ok(results)
+    }
+}
+
+#[derive(QueryableByName, PartialEq, Debug)]
+pub struct TransactionSummary {
+    #[sql_type = "String"]
+    pub category: Category,
+    #[sql_type = "Money"]
+    pub amount: PgMoney,
 }

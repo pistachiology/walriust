@@ -17,6 +17,7 @@ enum ParseState {
 pub enum ResultCommand {
     AddTransaction(NewTransaction),
     ListTransaction,
+    SummaryCurrentMonth,
     Help,
 }
 
@@ -35,6 +36,8 @@ impl Parser {
             Some(ResultCommand::ListTransaction)
         } else if token.starts_with("help") {
             Some(ResultCommand::Help)
+        } else if token.starts_with("current") {
+            Some(ResultCommand::SummaryCurrentMonth)
         } else {
             None
         }
